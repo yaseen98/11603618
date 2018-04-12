@@ -1,0 +1,234 @@
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+int p[10],b[10],ct[10],at[10],bt[10],wt[10],tat[10];
+int rp[10],rct[10],rat[10],rbt[10],rwt[10],rtat[10];
+int rup[1],ruct[1],ruat[1],rubt[1],ruwt[1],rutat[1];
+int cp[10],cct[10],cat[10],cbt[10],cwt[10],ctat[10];
+int n,i,j,k,temp;
+float avg_wt,avg_tat;
+void initializer(int v1[10],int v2[10],int v3[10],int v4[10],int v5[10], int v6[10],
+int v7[10],int v8[10],int v9[10],int v10[10],int v11[10], int v12[10],
+int v13[10],int v14[10],int v15[10],int v16[10],int v17[10], int v18[10])
+{
+	i=0;
+	for(i=0;i<10;i++)
+	{
+		v1[i]=0; v2[i]=0; v3[i]=0; v4[i]=0;v5[i]=0;v6[i]=0;
+		v7[i]=0; v8[i]=0; v9[i]=0; v10[i]=0;v11[i]=0;v12[i]=0;
+		v13[i]=0; v14[i]=0; v15[i]=0; v16[i]=0;v17[i]=0;v18[i]=0;
+	}
+}
+void initializer2(int v1[1],int v2[1],int v3[1],int v4[1],int v5[1],int v6[1])
+{
+v1[0]=0; v2[0]=0; v3[0]=0; v4[0]=0; v5[0]=0; v6[0]=0;
+}
+void insertendready()
+{
+	i=0;
+	while(rp[i]!=0)
+	{
+		i=i+1;
+	}
+	rp[i]=p[0];
+	rat[i]=at[0];
+	rbt[i]=bt[0];
+}
+void delete_first_job()
+{
+	p[0]=0;
+	at[0]=0;
+	bt[0]=0;
+	for(i=0;i<n-1;i++)
+	{
+		p[i]=p[i+1];
+		at[i]=at[i+1];
+		bt[i]=bt[i+1];
+	}
+	p[n-1]=0;
+	at[n-1]=0;
+	bt[n-1]=0;
+}
+void sort_ready()
+{
+	i=0;
+	while(rp[i]!=0)
+	{
+		i=i+1;
+	}
+    int l=i;
+	for(i=0;i<l-1;i++)
+    {
+    	for(j=0;j<l-i-1;j++)
+    	{
+    		printf("\n%d>%d\n",rbt[j],rbt[j+1]);
+    		if(rbt[j]>rbt[j+1])
+    		{
+    			printf("yes\n");
+    			temp=rp[j];
+    			rp[j]=rp[j+1];
+    			rp[j+1]=temp;
+    			temp=rat[j];
+    			rat[j]=rat[j+1];
+    			rat[j+1]=temp;
+    			temp=rbt[j];
+    			rbt[j]=rbt[j+1];
+    			rbt[j+1]=temp;
+			}
+		}
+	}	
+}
+void delete_first_ready()
+{
+	rp[0]=0;
+	rat[0]=0;
+	rbt[0]=0;
+	for(i=0;i<n-1;i++)
+	{
+		rp[i]=rp[i+1];
+		rat[i]=rat[i+1];
+		rbt[i]=rbt[i+1];
+	}
+	rp[n-1]=0;
+	rat[n-1]=0;
+	rbt[n-1]=0;	
+}
+insert_run()
+{
+
+	rup[0]=rp[0];
+	ruat[0]=rat[0];
+	rubt[0]=rbt[0];
+	
+}
+insert_end_terminate()
+{
+	i=0;
+	while(cp[i]!=0)
+	{
+		i=i+1;
+	}
+	cp[i]=rup[0];
+	cat[i]=ruat[0];
+	cbt[i]=rubt[0];
+	cct[i]=ruct[0];
+    ctat[i]=ruct[0]-ruat[0];
+    cwt[i]=ctat[i]-b[cp[i]-1];
+  
+}
+delete_run()
+{
+	rup[0]=0;
+	ruat[0]=0;
+	rubt[0]=0;
+	ruct[0]=0;
+}
+display_terminate(int total)
+{
+	i=0;
+	while(cp[i]!=0)
+	{
+		i=i+1;
+	}
+	j=0;
+	for(j=0;j<i;j++)
+	{
+		avg_wt=avg_wt+cwt[j];
+		avg_tat=avg_tat+ctat[j];
+		printf("\np%d\t%d\t%d\t%d\t%d\t%d",cp[j],cat[j],cbt[j],cct[j],cwt[j],ctat[j]);
+	}
+		printf("\naverage waiting time: %f\naverage turn around time: %f\n",avg_wt/total,avg_tat/total);
+}
+display_run()
+{
+
+		printf("\np%d\t%d\t%d\t%d\t%f\t%f",rup[0],ruat[0],rubt[0],ruct[0],ruwt[0],rutat[0]);
+
+}
+int main()
+{
+	initializer(p,at,bt,ct,wt,tat,rp,rat,rbt,rct,rtat,rwt,cp,cat,cbt,cwt,ctat,cct);
+	initializer2(rup,ruat,rubt,ruct,rutat,ruwt);
+char s[10];
+	printf("*********Shortest Job First*******\n");
+	printf("Enter no of processes :",p);
+	scanf("%d",&n);
+
+	for(i=0;i<n;i++)
+	{
+		p[i]=i+1;
+		printf("enter the arrival time of process p%d:",i+1);
+		scanf("%d",&at[i]);
+		printf("enter the burst time of process p%d: ",i+1);
+		scanf("%d",&bt[i]);
+	    b[i]=bt[i];
+	}
+	for(i=0;i<n;i++)
+    {
+    	for(j=0;j<n;j++)
+    	{
+    		if(at[i]<at[j])
+    		{
+    			temp=p[j];
+    			p[j]=p[i];
+    			p[i]=temp;
+    			temp=at[j];
+    			at[j]=at[i];
+    			at[i]=temp;
+    			temp=bt[j];
+    			bt[j]=bt[i];
+    			bt[i]=temp;
+			}
+		}
+	}
+	for(i=0;i<10;i++)
+	{
+		printf("\np%d\t%d\t%d",p[i],at[i],bt[i]);
+	}
+if(at[0]==0)
+{
+	printf("error");
+	exit(0);
+}
+int tq=2;
+k=2;
+int count=0;
+int time=0;
+while(p[0]!=0 || rp[0]!=0 || rup[0]!=0)
+{
+while(at[0]==time)
+{
+	insertendready();
+	delete_first_job();
+}
+
+if(rup[0]==0 && rp[1]!=0 && k>0)
+{
+	sort_ready();
+	k=k-1;
+}
+if(k==0)
+{
+	k=2;
+}
+if(rup[0]==0 && rp[0]!=0 && k==2)
+{   
+		insert_run();
+		delete_first_ready();
+}
+if(rup[0]!=0 && rubt[0]==0)
+{
+	ruct[0]=time;	
+	insert_end_terminate();
+	delete_run();
+}
+if(rup[0]!=0 && rubt[0]!=0)
+{
+	rubt[0]=rubt[0]-1;
+}
+
+time=time+1;
+}
+printf("\nPname\tAT\tBT\tCT\tWT\tTAT");
+display_terminate(n);
+}
